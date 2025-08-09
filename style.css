@@ -48,6 +48,10 @@ h1 {
     padding-bottom: 5px;
 }
 
+.week-plan ol, .week-plan ul {
+    padding-left: 20px;
+}
+
 nav {
     display: flex;
     justify-content: space-between;

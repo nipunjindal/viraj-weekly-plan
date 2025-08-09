@@ -27,10 +27,32 @@ document.addEventListener('DOMContentLoaded', () => {
             if (weekData.hasOwnProperty(key)) {
                 const title = document.createElement('h3');
                 title.textContent = key;
-                const content = document.createElement('p');
-                content.textContent = weekData[key];
                 weekDiv.appendChild(title);
-                weekDiv.appendChild(content);
+
+                const contentValue = weekData[key];
+                if (key === 'How to Teach / Impart' && typeof contentValue === 'string') {
+                    const list = document.createElement('ol');
+                    const items = contentValue.split(/\d+\./).filter(item => item.trim() !== '');
+                    items.forEach(itemText => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = itemText.trim();
+                        list.appendChild(listItem);
+                    });
+                    weekDiv.appendChild(list);
+                } else if (key === 'Trivia & GK Focus' && typeof contentValue === 'string') {
+                    const list = document.createElement('ul');
+                    const items = contentValue.split('-').filter(item => item.trim() !== '');
+                    items.forEach(itemText => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = itemText.trim();
+                        list.appendChild(listItem);
+                    });
+                    weekDiv.appendChild(list);
+                } else {
+                    const content = document.createElement('p');
+                    content.textContent = contentValue;
+                    weekDiv.appendChild(content);
+                }
             }
         }
         planContainer.appendChild(weekDiv);
