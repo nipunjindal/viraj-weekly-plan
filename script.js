@@ -41,12 +41,36 @@ document.addEventListener('DOMContentLoaded', () => {
                     weekDiv.appendChild(list);
                 } else if (key === 'Trivia & GK Focus' && typeof contentValue === 'string') {
                     const list = document.createElement('ul');
-                    const items = contentValue.split('-').filter(item => item.trim() !== '');
-                    items.forEach(itemText => {
-                        const listItem = document.createElement('li');
-                        listItem.textContent = itemText.trim();
-                        list.appendChild(listItem);
+                    const topics = contentValue.split(/:-/);
+                    topics.forEach(topicText => {
+                        const topicTrimmed = topicText.trim();
+                        if (topicTrimmed) {
+                            const topicItem = document.createElement('li');
+                            const parts = topicTrimmed.split(/\? /);
+                            topicItem.textContent = parts[0] + (parts.length > 1 ? '?' : '');
+                            
+                            if (parts.length > 1) {
+                                const sublist = document.createElement('ul');
+                                const questions = topicTrimmed.substring(parts[0].length + 1).split('- ').filter(q => q.trim());
+                                questions.forEach(q => {
+                                    const subListItem = document.createElement('li');
+                                    subListItem.textContent = q.trim();
+                                    sublist.appendChild(subListItem);
+                                });
+                                topicItem.appendChild(sublist);
+                            }
+                            list.appendChild(topicItem);
+                        }
                     });
+                    weekDiv.appendChild(list);
+                } else if (key === 'Daily Rituals' && typeof contentValue === 'string') {
+                    const list = document.createElement('ul');
+                    const items = contentValue.split(/(Morning:|After school:|Evening:)/).filter(item => item.trim() !== '');
+                    for (let i = 0; i < items.length; i += 2) {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `<strong>${items[i]}</strong> ${items[i+1]}`;
+                        list.appendChild(listItem);
+                    }
                     weekDiv.appendChild(list);
                 } else {
                     const content = document.createElement('p');

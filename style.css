@@ -52,6 +52,14 @@ h1 {
     padding-left: 20px;
 }
 
+.week-plan ul ul {
+    padding-left: 20px;
+}
+
+.week-plan ul li {
+    margin-bottom: 5px;
+}
+
 nav {
     display: flex;
     justify-content: space-between;
