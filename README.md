@@ -17,6 +17,10 @@ To view the weekly plan, simply open the `index.html` file in your web browser. 
 
 ## How to Update the Plan
 
-1.  Edit the `weekly_plan.xlsx` file with the new plan details.
-2.  Run the `plan.py` script to update the `data/plan.json` file. This will require Python with the `pandas` and `openpyxl` libraries installed.
-3.  Commit and push the changes to your GitHub repository. The website will be automatically updated on GitHub Pages.
+1.  Modify the `weekly_plan.xlsx` file with your new weekly plan.
+2.  Run the `plan.py` script from your terminal to update the website's data:
+    ```bash
+    python plan.py
+    ```
+    This will regenerate the `data/plan.json` file.
+3.  Commit and push the updated `data/plan.json` file to your GitHub repository. The website will be automatically updated on GitHub Pages.
