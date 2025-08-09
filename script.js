@@ -41,27 +41,33 @@ document.addEventListener('DOMContentLoaded', () => {
                     weekDiv.appendChild(list);
                 } else if (key === 'Trivia & GK Focus' && typeof contentValue === 'string') {
                     const list = document.createElement('ul');
-                    const topics = contentValue.split(/:-/);
-                    topics.forEach(topicText => {
-                        const topicTrimmed = topicText.trim();
-                        if (topicTrimmed) {
-                            const topicItem = document.createElement('li');
-                            const parts = topicTrimmed.split(/\? /);
-                            topicItem.textContent = parts[0] + (parts.length > 1 ? '?' : '');
-                            
-                            if (parts.length > 1) {
-                                const sublist = document.createElement('ul');
-                                const questions = topicTrimmed.substring(parts[0].length + 1).split('- ').filter(q => q.trim());
-                                questions.forEach(q => {
-                                    const subListItem = document.createElement('li');
-                                    subListItem.textContent = q.trim();
-                                    sublist.appendChild(subListItem);
-                                });
-                                topicItem.appendChild(sublist);
-                            }
-                            list.appendChild(topicItem);
-                        }
-                    });
+                    const parts = contentValue.split(/:-/);
+
+                    if (parts.length === 2) {
+                        const topic = parts[0].trim();
+                        const questions_str = parts[1].trim();
+
+                        const topicItem = document.createElement('li');
+                        topicItem.textContent = topic;
+                        list.appendChild(topicItem);
+
+                        const sublist = document.createElement('ul');
+                        const questions = questions_str.split('-').filter(item => item.trim() !== '');
+                        questions.forEach(q_text => {
+                            const q_item = document.createElement('li');
+                            q_item.textContent = q_text.trim();
+                            sublist.appendChild(q_item);
+                        });
+                        topicItem.appendChild(sublist);
+                    } else {
+                        // Fallback for cases where there is no topic prefix.
+                        const items = contentValue.split('-').filter(item => item.trim() !== '');
+                        items.forEach(itemText => {
+                            const listItem = document.createElement('li');
+                            listItem.textContent = itemText.trim();
+                            list.appendChild(listItem);
+                        });
+                    }
                     weekDiv.appendChild(list);
                 } else if (key === 'Daily Rituals' && typeof contentValue === 'string') {
                     const list = document.createElement('ul');
