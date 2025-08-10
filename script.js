@@ -23,8 +23,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const weekDiv = document.createElement('div');
         weekDiv.className = 'week-plan';
 
+        if (weekData['Week Number']) {
+            const weekNumber = document.createElement('h2');
+            weekNumber.textContent = `Week ${weekData['Week Number']}`;
+            weekDiv.appendChild(weekNumber);
+        }
+
         for (const key in weekData) {
-            if (weekData.hasOwnProperty(key)) {
+            if (weekData.hasOwnProperty(key) && key !== 'Week Number' && weekData[key]) {
                 const title = document.createElement('h3');
                 title.textContent = key;
                 weekDiv.appendChild(title);

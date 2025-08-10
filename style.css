@@ -41,6 +41,12 @@ h1 {
     margin-bottom: 15px;
 }
 
+.week-plan h2 {
+    text-align: center;
+    color: #3498db;
+    margin-bottom: 20px;
+}
+
 .week-plan h3 {
     color: #34495e;
     font-weight: 600;

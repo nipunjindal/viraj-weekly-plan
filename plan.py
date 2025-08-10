@@ -2,7 +2,7 @@ import pandas as pd
 import json
 
 # Read the Excel file
-df = pd.read_excel('weekly_plan.xlsx')
+df = pd.read_excel('weekly_plan.xlsx').fillna('')
 
 # Convert the DataFrame to a list of dictionaries
 plan_data = df.to_dict(orient='records')
