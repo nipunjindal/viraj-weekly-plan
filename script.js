@@ -84,6 +84,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         list.appendChild(listItem);
                     }
                     weekDiv.appendChild(list);
+                } else if (key.startsWith('Park Time Options') && typeof contentValue === 'string') {
+                    const list = document.createElement('ul');
+                    const items = contentValue.split(/\. |:/).filter(item => item.trim() !== '');
+                    items.forEach(itemText => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = itemText.trim();
+                        list.appendChild(listItem);
+                    });
+                    weekDiv.appendChild(list);
+                } else if (key.startsWith('Trivia Bank') && typeof contentValue === 'string') {
+                    const list = document.createElement('ol');
+                    const items = contentValue.split(/\d+\./).filter(item => item.trim() !== '');
+                    items.forEach(itemText => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = itemText.trim();
+                        list.appendChild(listItem);
+                    });
+                    weekDiv.appendChild(list);
                 } else {
                     const content = document.createElement('p');
                     content.textContent = contentValue;
