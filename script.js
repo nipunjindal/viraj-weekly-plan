@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const planContainer = document.getElementById('plan-container');
+    const pageTitle = document.querySelector('header h1');
     const prevWeekButton = document.getElementById('prev-week');
     const nextWeekButton = document.getElementById('next-week');
 
@@ -20,17 +21,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const weekData = weeklyData[weekIndex];
         planContainer.innerHTML = ''; 
 
+        // Update the main title
+        let titleText = "Weekly Plan for Viraj";
+        if (weekData['Week Number']) {
+            titleText += `: Week ${weekData['Week Number']}`;
+        }
+        if (weekData['Week Dates']) {
+            titleText += ` (${weekData['Week Dates']})`;
+        }
+        pageTitle.textContent = titleText;
+
         const weekDiv = document.createElement('div');
         weekDiv.className = 'week-plan';
 
-        if (weekData['Week Number']) {
-            const weekNumber = document.createElement('h2');
-            weekNumber.textContent = `Week ${weekData['Week Number']}`;
-            weekDiv.appendChild(weekNumber);
-        }
-
         for (const key in weekData) {
-            if (weekData.hasOwnProperty(key) && key !== 'Week Number' && weekData[key]) {
+            if (weekData.hasOwnProperty(key) && key !== 'Week Number' && key !== 'Week Dates' && weekData[key]) {
                 const title = document.createElement('h3');
                 title.textContent = key;
                 weekDiv.appendChild(title);
