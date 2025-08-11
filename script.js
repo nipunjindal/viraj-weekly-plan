@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 weekDiv.appendChild(title);
 
                 const contentValue = weekData[key];
-                if (key === 'How to Teach / Impart' && typeof contentValue === 'string') {
+                if (key.startsWith('How to Teach / Impart') && typeof contentValue === 'string') {
                     const list = document.createElement('ol');
                     const items = contentValue.split(/\d+\./).filter(item => item.trim() !== '');
                     items.forEach(itemText => {
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                     }
                     weekDiv.appendChild(list);
-                } else if (key === 'Daily Rituals' && typeof contentValue === 'string') {
+                } else if (key.startsWith('Daily Rituals') && typeof contentValue === 'string') {
                     const list = document.createElement('ul');
                     const items = contentValue.split(/(Morning:|After school:|Evening:)/).filter(item => item.trim() !== '');
                     for (let i = 0; i < items.length; i += 2) {
