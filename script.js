@@ -11,6 +11,31 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             weeklyData = data;
+
+            // Find the current week based on today's date
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Normalize to the start of the day
+
+            let foundWeek = false;
+            for (let i = 0; i < weeklyData.length; i++) {
+                const week = weeklyData[i];
+                if (week['Week Dates']) {
+                    const dates = week['Week Dates'].split('–').map(d => d.trim());
+                    if (dates.length === 2) {
+                        const startDate = new Date(dates[0]);
+                        const endDate = new Date(dates[1]);
+                        startDate.setHours(0, 0, 0, 0);
+                        endDate.setHours(0, 0, 0, 0);
+
+                        if (today >= startDate && today <= endDate) {
+                            currentWeek = i;
+                            foundWeek = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
             renderWeek(currentWeek);
         });
 
