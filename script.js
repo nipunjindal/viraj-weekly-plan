@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pageTitle = document.querySelector('header h1');
     const prevWeekButton = document.getElementById('prev-week');
     const nextWeekButton = document.getElementById('next-week');
+    const weekSelect = document.getElementById('week-select');
 
     let currentWeek = 0;
     let weeklyData = [];
@@ -11,6 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             weeklyData = data;
+
+            // Populate week selector
+            weeklyData.forEach((week, index) => {
+                const option = document.createElement('option');
+                const label = week['Week Number'] ? `Week ${week['Week Number']}` : `Week ${index + 1}`;
+                option.value = index;
+                option.textContent = label;
+                weekSelect.appendChild(option);
+            });
 
             // Find the current week based on today's date
             const today = new Date();
@@ -36,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            weekSelect.value = currentWeek;
             renderWeek(currentWeek);
         });
 
@@ -44,7 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         const weekData = weeklyData[weekIndex];
-        planContainer.innerHTML = ''; 
+        planContainer.innerHTML = '';
+        weekSelect.value = weekIndex;
 
         // Update the main title
         let titleText = "Weekly Plan for Viraj";
@@ -57,13 +69,16 @@ document.addEventListener('DOMContentLoaded', () => {
         pageTitle.textContent = titleText;
 
         const weekDiv = document.createElement('div');
-        weekDiv.className = 'week-plan';
+        weekDiv.className = 'week-plan fade-in';
 
         for (const key in weekData) {
             if (weekData.hasOwnProperty(key) && key !== 'Week Number' && key !== 'Week Dates' && weekData[key]) {
+                const section = document.createElement('section');
+                section.className = 'plan-section';
+
                 const title = document.createElement('h3');
                 title.textContent = key;
-                weekDiv.appendChild(title);
+                section.appendChild(title);
 
                 const contentValue = weekData[key];
                 if (key.startsWith('How to Teach / Impart') && typeof contentValue === 'string') {
@@ -74,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         listItem.textContent = itemText.trim();
                         list.appendChild(listItem);
                     });
-                    weekDiv.appendChild(list);
+                    section.appendChild(list);
                 } else if (key === 'Trivia & GK Focus' && typeof contentValue === 'string') {
                     const list = document.createElement('ul');
                     const parts = contentValue.split(/:-/);
@@ -104,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             list.appendChild(listItem);
                         });
                     }
-                    weekDiv.appendChild(list);
+                    section.appendChild(list);
                 } else if (key.startsWith('Daily Rituals') && typeof contentValue === 'string') {
                     const list = document.createElement('ul');
                     const items = contentValue.split(/(Morning:|After school:|Evening:)/).filter(item => item.trim() !== '');
@@ -113,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         listItem.innerHTML = `<strong>${items[i]}</strong> ${items[i+1]}`;
                         list.appendChild(listItem);
                     }
-                    weekDiv.appendChild(list);
+                    section.appendChild(list);
                 } else if (key.startsWith('Park Time Options') && typeof contentValue === 'string') {
                     const list = document.createElement('ul');
                     const items = contentValue.split(/\. |:/).filter(item => item.trim() !== '');
@@ -122,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         listItem.textContent = itemText.trim();
                         list.appendChild(listItem);
                     });
-                    weekDiv.appendChild(list);
+                    section.appendChild(list);
                 } else if (key.startsWith('Trivia Bank') && typeof contentValue === 'string') {
                     const list = document.createElement('ol');
                     const items = contentValue.split(/\d+\./).filter(item => item.trim() !== '');
@@ -131,12 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         listItem.textContent = itemText.trim();
                         list.appendChild(listItem);
                     });
-                    weekDiv.appendChild(list);
+                    section.appendChild(list);
                 } else {
                     const content = document.createElement('p');
                     content.textContent = contentValue;
-                    weekDiv.appendChild(content);
+                    section.appendChild(content);
                 }
+                weekDiv.appendChild(section);
             }
         }
         planContainer.appendChild(weekDiv);
@@ -154,5 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
             currentWeek++;
             renderWeek(currentWeek);
         }
+    });
+
+    weekSelect.addEventListener('change', (e) => {
+        currentWeek = parseInt(e.target.value, 10);
+        renderWeek(currentWeek);
     });
 });
