@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Populate week selector
             weeklyData.forEach((week, index) => {
                 const option = document.createElement('option');
-                const label = week['Week Number'] ? `Week ${week['Week Number']}` : `Week ${index + 1}`;
+                const label = week['Week Dates'] ? week['Week Dates'] : `Week ${index + 1}`;
                 option.value = index;
                 option.textContent = label;
                 weekSelect.appendChild(option);
@@ -60,9 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Update the main title
         let titleText = "Weekly Plan for Viraj";
-        if (weekData['Week Number']) {
-            titleText += `: Week ${weekData['Week Number']}`;
-        }
         if (weekData['Week Dates']) {
             titleText += ` (${weekData['Week Dates']})`;
         }
